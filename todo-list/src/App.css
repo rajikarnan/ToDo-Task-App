@@ -1,4 +1,6 @@
-.complete-btn, .delete-btn, .add-btn {
+.complete-btn,
+.delete-btn,
+.add-btn {
   border: none;
   border-radius: 10px;
   color: white;
@@ -13,34 +15,41 @@
   background-color: #166df7; /* Blue */
   border: none;
   border-radius: 5px;
-  color: white; 
-} 
+  color: white;
+}
 
-.loading, .no-tasks, .error {
+.loading,
+.no-tasks,
+.error {
   font-size: 25px;
   color: #555;
   margin-top: 20px;
 }
 
+.add-btn:disabled,
+.add-btn:disabled:hover {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
 
 .complete-btn:hover {
-  background-color: #046c12; 
+  background-color: #046c12;
 }
 
 .complete-btn {
-  background-color: #1b750f; 
+  background-color: #1b750f;
 }
 
 .delete-btn {
-  background-color: #5c0b05; 
+  background-color: #5c0b05;
 }
 
 .delete-btn:hover {
-  background-color: #8b0000; 
+  background-color: #8b0000;
 }
 
 .add-btn:hover {
-  background-color: #0d47a1; 
+  background-color: #0d47a1;
 }
 
 .todo-item {
@@ -62,7 +71,7 @@
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .button-container {
     margin-top: 10px;
   }
@@ -71,5 +80,4 @@
     font-size: 18px;
     text-align: left;
   }
-  
 }

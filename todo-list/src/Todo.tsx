@@ -10,6 +10,8 @@ type Props = {
 export const Todo: React.FC<Props> = ({ item, onComplete, onDelete }) => {
   return (
     <li
+      id="todo-item"
+      aria-label="Todo item"
       aria-description={`Todo item ${item.todo} - ${item.completed ? "completed" : "not completed"}`}
       className={`todo-item ${item.completed ? "completed" : ""}`}
       style={{
@@ -20,6 +22,8 @@ export const Todo: React.FC<Props> = ({ item, onComplete, onDelete }) => {
       <span className="todo-text">{item.todo}</span>
       <div className="button-container">
         <button
+          id="complete-btn"
+          aria-label="Complete button"
           aria-description={`complete button - ${item.completed ? "undo" : "complete"}`}
           className="complete-btn"
           onClick={(e) => {
@@ -30,6 +34,8 @@ export const Todo: React.FC<Props> = ({ item, onComplete, onDelete }) => {
           {item.completed ? "Undo" : "Complete"}
         </button>
         <button
+          id="delete-btn"
+          aria-label="Delete button"
           aria-description="Delete button"
           className="delete-btn"
           onClick={(e) => {
