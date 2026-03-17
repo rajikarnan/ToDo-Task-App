@@ -1,3 +1,12 @@
+.input-container {
+  position: sticky;
+  top: 0;
+  padding: 10px;
+  z-index: 10;
+  border-bottom: 1px solid #eee;
+  background-color: black;
+}
+
 .todo-item.completed .todo-text {
   text-decoration: line-through;
   color: #888;

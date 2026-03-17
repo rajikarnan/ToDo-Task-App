@@ -14,6 +14,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [initialDataLoaded, setInitialDataLoaded] = useState(false);
+  const [isAddingTask, setIsAddingTask] = useState(false);
 
   useEffect(() => {
     const storedTasks = getStoredTodos();
@@ -50,6 +51,14 @@ function App() {
       return;
     }
     localStorage.setItem("tasks", JSON.stringify(tasks));
+
+    if (isAddingTask) {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: "smooth",
+      });
+      setIsAddingTask(false);
+    }
   }, [tasks, initialDataLoaded]);
 
   const addTodo = () => {
@@ -60,6 +69,7 @@ function App() {
       completed: false,
     };
     setTasks([...tasks, newTask]);
+    setIsAddingTask(true);
     setInputValue("");
   };
 
@@ -77,8 +87,8 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Task List</h1>
       <div className="input-container">
+        <h1>Task List</h1>
         <input
           aria-label="Add new task input"
           type="text"
@@ -101,43 +111,45 @@ function App() {
           Add
         </button>
       </div>
-      {loading && (
-        <p
-          className="loading"
-          aria-description="Loading tasks..."
-          aria-label="loading"
-        >
-          Loading tasks...
-        </p>
-      )}
-      {!loading && !error && tasks.length === 0 && (
-        <p
-          className="no-tasks"
-          aria-description="No tasks available"
-          aria-label="no tasks"
-        >
-          No tasks available.
-        </p>
-      )}
-      {error && (
-        <p
-          className="error"
-          aria-description="Error message"
-          aria-label="error"
-        >
-          {error}
-        </p>
-      )}
-      <ul className="todo-list">
-        {tasks.map((task) => (
-          <Todo
-            key={task.id}
-            item={task}
-            onComplete={toggleTask}
-            onDelete={deleteTask}
-          />
-        ))}
-      </ul>
+      <div className="todo-container">
+        {loading && (
+          <p
+            className="loading"
+            aria-description="Loading tasks..."
+            aria-label="loading"
+          >
+            Loading tasks...
+          </p>
+        )}
+        {!loading && !error && tasks.length === 0 && (
+          <p
+            className="no-tasks"
+            aria-description="No tasks available"
+            aria-label="no tasks"
+          >
+            No tasks available.
+          </p>
+        )}
+        {error && (
+          <p
+            className="error"
+            aria-description="Error message"
+            aria-label="error"
+          >
+            {error}
+          </p>
+        )}
+        <ul className="todo-list">
+          {tasks.map((task) => (
+            <Todo
+              key={task.id}
+              item={task}
+              onComplete={toggleTask}
+              onDelete={deleteTask}
+            />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
