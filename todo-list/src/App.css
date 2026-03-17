@@ -16,7 +16,7 @@
   color: white; 
 } 
 
-.loading, .no-tasks {
+.loading, .no-tasks, .error {
   font-size: 25px;
   color: #555;
   margin-top: 20px;

@@ -10,9 +10,8 @@ type Props = {
 export const Todo: React.FC<Props> = ({ item, onComplete, onDelete }) => {
   return (
     <li
-      aria-description={`Todo item ${item.completed ? "completed" : "not completed"}`}
+      aria-description={`Todo item ${item.todo} - ${item.completed ? "completed" : "not completed"}`}
       className={`todo-item ${item.completed ? "completed" : ""}`}
-      onClick={() => onComplete(item.id)}
       style={{
         textDecoration: item.completed ? "line-through" : "none",
         opacity: item.completed ? 0.7 : 1,

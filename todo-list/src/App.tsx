@@ -7,6 +7,7 @@ function App() {
   const [tasks, setTasks] = useState<ToDoListItem[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const storedTasks = localStorage.getItem("tasks");
@@ -17,8 +18,9 @@ function App() {
     }
     const InitialTasks = fetch("https://dummyjson.com/todos")
       .then((res) => res.json())
-      .catch((err) => {
-        console.error("Error fetching initial tasks:", err);
+      .catch(() => {
+        setError("Error fetching tasks");
+        setLoading(false);
       });
     InitialTasks.then((data) => {
       if (data && data.todos) {
@@ -76,11 +78,12 @@ function App() {
       {loading && <p className="loading" aria-description="Loading tasks...">
         Loading tasks...
       </p>}
-      {!loading && tasks.length === 0 && (
+      {!loading && !error && tasks.length === 0 && (
         <p className="no-tasks" aria-description="No tasks available">
           No tasks available.
         </p>
       )}
+      {error && <p className="error" aria-description="Error message">{error}</p>}
       <ul className="todo-list">
         {tasks.map((task) => (
           <Todo
