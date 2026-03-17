@@ -1,0 +1,25 @@
+.complete-btn, .delete-btn, .add-btn {
+  background-color: #5a1b1b; /* Green */
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 5px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px 5px;
+  cursor: pointer;
+} 
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+.add-new-input {
+  padding: 10px;
+  margin: 10px;
+  font-size: 16px;
+  line-height: 2;
+}
