@@ -4,7 +4,11 @@
   padding: 10px;
   z-index: 10;
   border-bottom: 1px solid #eee;
-  background-color: black;
+  background-color: var(--code-bg);
+}
+
+.input-container h1 {
+  color: var(--text);
 }
 
 .todo-item.completed .todo-text {
