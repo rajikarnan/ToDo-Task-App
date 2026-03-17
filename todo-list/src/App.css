@@ -1,5 +1,4 @@
 .complete-btn, .delete-btn, .add-btn {
-  background-color: #5a1b1b; /* Green */
   border: none;
   border-radius: 10px;
   color: white;
@@ -10,7 +9,40 @@
   font-size: 16px;
   margin: 10px 5px;
   cursor: pointer;
+  align-items: center;
+  background-color: #166df7; /* Blue */
+  border: none;
+  border-radius: 5px;
+  color: white; 
 } 
+
+.loading, .no-tasks {
+  font-size: 25px;
+  color: #555;
+  margin-top: 20px;
+}
+
+
+.complete-btn:hover {
+  background-color: #046c12; 
+}
+
+.complete-btn {
+  background-color: #1b750f; 
+}
+
+.delete-btn {
+  background-color: #5c0b05; 
+}
+
+.delete-btn:hover {
+  background-color: #8b0000; 
+}
+
+.add-btn:hover {
+  background-color: #0d47a1; 
+}
+
 .todo-item {
   display: flex;
   align-items: center;

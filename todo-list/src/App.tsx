@@ -1,32 +1,31 @@
 import { useEffect, useState } from "react";
-import './App.css';
+import "./App.css";
 import { Todo } from "./Todo";
 import { type ToDoListItem } from "./types";
 
-function App() { 
+function App() {
   const [tasks, setTasks] = useState<ToDoListItem[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-
     const storedTasks = localStorage.getItem("tasks");
-      if (storedTasks) {
-        setTasks(JSON.parse(storedTasks));
-        setLoading(false);
-        return;
-      }
-      const InitialTasks = fetch("https://dummyjson.com/todos").then(res => res.json()).catch(err => {
+    if (storedTasks) {
+      setTasks(JSON.parse(storedTasks));
+      setLoading(false);
+      return;
+    }
+    const InitialTasks = fetch("https://dummyjson.com/todos")
+      .then((res) => res.json())
+      .catch((err) => {
         console.error("Error fetching initial tasks:", err);
       });
-      InitialTasks.then(data => {
-        if (data && data.todos) {
-          setTasks(data.todos);
-          setLoading(false);
-        }
-      });
-    
-    
+    InitialTasks.then((data) => {
+      if (data && data.todos) {
+        setTasks(data.todos);
+        setLoading(false);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -47,13 +46,15 @@ function App() {
   };
 
   const toggleTask = (id: number) => {
-    setTasks(tasks.map(task => 
-      task.id === id ? { ...task, completed: !task.completed } : task
-    ));
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task,
+      ),
+    );
   };
 
   const deleteTask = (id: number) => {
-    setTasks(tasks.filter(task => task.id !== id));
+    setTasks(tasks.filter((task) => task.id !== id));
   };
 
   return (
@@ -61,6 +62,7 @@ function App() {
       <h1>Task List</h1>
       <div className="input-container">
         <input
+          aria-description="Add new task input"
           type="text"
           value={inputValue}
           className="add-new-input"
@@ -71,8 +73,14 @@ function App() {
           Add
         </button>
       </div>
-      {loading && <p>Loading tasks...</p>}
-      {!loading && tasks.length === 0 && <p>No tasks available.</p>}
+      {loading && <p className="loading" aria-description="Loading tasks...">
+        Loading tasks...
+      </p>}
+      {!loading && tasks.length === 0 && (
+        <p className="no-tasks" aria-description="No tasks available">
+          No tasks available.
+        </p>
+      )}
       <ul className="todo-list">
         {tasks.map((task) => (
           <Todo
