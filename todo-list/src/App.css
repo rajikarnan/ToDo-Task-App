@@ -1,3 +1,13 @@
+.todo-item.completed .todo-text {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
 .complete-btn,
 .delete-btn,
 .add-btn {
@@ -38,10 +48,24 @@
 
 .complete-btn {
   background-color: #1b750f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  height: 100%;
+  padding: 10px 15px;
+  cursor: pointer;
 }
 
 .delete-btn {
   background-color: #5c0b05;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  height: 100%;
+  padding: 10px 15px;
+  cursor: pointer;
 }
 
 .delete-btn:hover {

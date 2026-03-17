@@ -1,5 +1,8 @@
 import React from "react";
 import { type ToDoListItem as TodoListItemType } from "./types";
+import { FaTrash } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
+import { FaRedo } from "react-icons/fa";
 
 type Props = {
   item: TodoListItemType;
@@ -14,10 +17,6 @@ export const Todo: React.FC<Props> = ({ item, onComplete, onDelete }) => {
       aria-label="Todo item"
       aria-description={`Todo item ${item.todo} - ${item.completed ? "completed" : "not completed"}`}
       className={`todo-item ${item.completed ? "completed" : ""}`}
-      style={{
-        textDecoration: item.completed ? "line-through" : "none",
-        opacity: item.completed ? 0.7 : 1,
-      }}
     >
       <span className="todo-text">{item.todo}</span>
       <div className="button-container">
@@ -31,7 +30,14 @@ export const Todo: React.FC<Props> = ({ item, onComplete, onDelete }) => {
             onComplete(item.id);
           }}
         >
-          {item.completed ? "Undo" : "Complete"}
+          {item.completed ? (
+            <FaRedo aria-label="Undo" aria-description="Redo the Task" />
+          ) : (
+            <FaCheck
+              aria-label="Complete"
+              aria-description="Mark the task as complete"
+            />
+          )}
         </button>
         <button
           id="delete-btn"
@@ -43,7 +49,7 @@ export const Todo: React.FC<Props> = ({ item, onComplete, onDelete }) => {
             onDelete(item.id);
           }}
         >
-          Delete
+          <FaTrash aria-label="Delete" aria-description="Delete the task" />
         </button>
       </div>
     </li>

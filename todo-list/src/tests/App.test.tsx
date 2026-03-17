@@ -19,6 +19,7 @@ const mockTodosResponse = {
 };
 
 describe("Todo App", () => {
+  const renderApp = () => render(<App />);
   beforeEach(() => {
     vi.restoreAllMocks();
     localStorage.clear();
@@ -30,7 +31,7 @@ describe("Todo App", () => {
       json: async () => mockTodosResponse,
     } as Response);
 
-    render(<App />);
+    renderApp();
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(fetchMock).toHaveBeenCalledWith("https://dummyjson.com/todos");
@@ -56,7 +57,7 @@ describe("Todo App", () => {
 
     const fetchMock = vi.spyOn(globalThis, "fetch");
 
-    render(<App />);
+    renderApp();
 
     expect(
       await screen.findByText("Do something nice for someone you care about"),
@@ -72,7 +73,7 @@ describe("Todo App", () => {
       json: async () => mockTodosResponse,
     } as Response);
 
-    render(<App />);
+    renderApp();
 
     const task = await screen.findByText(
       "Do something nice for someone you care about",
@@ -85,14 +86,12 @@ describe("Todo App", () => {
     await userEvent.click(completeButtons[0]);
 
     await waitFor(() => {
-      expect(task.closest("li")).toHaveStyle("text-decoration: line-through");
-      expect(task.closest("li")).toHaveStyle("opacity: 0.7");
-      expect(completeButtons[0]).toHaveTextContent(/undo/i);
+      expect(task.closest("li")).toHaveClass("completed");
     });
   });
 
   it("adds a new task", async () => {
-    render(<App />);
+    renderApp();
 
     const input = await screen.findByPlaceholderText(/add a new task/i);
     const addButton = screen.getByRole("button", { name: /add/i });
@@ -103,7 +102,7 @@ describe("Todo App", () => {
   });
 
   it("deletes a task", async () => {
-    render(<App />);
+    renderApp();
 
     expect(
       await screen.findByText("Do something nice for someone you care about"),
@@ -112,7 +111,6 @@ describe("Todo App", () => {
     const deleteButtons = await screen.findAllByRole("button", {
       name: /delete/i,
     });
-
     await userEvent.click(deleteButtons[0]);
 
     await waitFor(() => {
@@ -123,14 +121,39 @@ describe("Todo App", () => {
   });
 
   it("Does not allow adding empty tasks", async () => {
-    render(<App />);
+    renderApp();
     const input = await screen.findByPlaceholderText(/add a new task/i);
     const addButton = screen.getByRole("button", { name: /add/i });
+    const user = userEvent.setup();
 
-    await userEvent.type(input, "   ");
+    await user.type(input, "   ");
     expect(addButton).toBeDisabled();
 
-    await userEvent.type(input, "something");
+    await user.type(input, "something");
     expect(addButton).toBeEnabled();
+  });
+
+  it("Displays loading state correctly", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => mockTodosResponse,
+    } as Response);
+    renderApp();
+    expect(screen.getByText(/loading tasks/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText(/loading tasks/i)).not.toBeInTheDocument();
+    });
+  });
+
+  it("Displays error message on fetch failure", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: false,
+    } as Response);
+    renderApp();
+    expect(screen.getByText(/loading tasks/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText(/loading tasks/i)).not.toBeInTheDocument();
+      expect(screen.getByText(/failed to load tasks/i)).toBeInTheDocument();
+    });
   });
 });

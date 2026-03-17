@@ -5,7 +5,7 @@ import { type ToDoListItem } from "./types";
 
 const getStoredTodos = (): ToDoListItem[] | null => {
   const stored = localStorage.getItem("tasks");
-  return stored ? JSON.parse(stored) : [];
+  return stored ? JSON.parse(stored) : null;
 };
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
   useEffect(() => {
     const storedTasks = getStoredTodos();
 
-    if (storedTasks != null && storedTasks.length > 0) {
+    if (storedTasks != null) {
       setTasks(storedTasks);
       setLoading(false);
       setInitialDataLoaded(true);
